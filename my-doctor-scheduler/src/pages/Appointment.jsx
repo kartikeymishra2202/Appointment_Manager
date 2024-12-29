@@ -1,12 +1,31 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import "./index.css";
 
 const Appointment = () => {
+  const [doctors, setDoctors] = useState([]);
   const [appointmentDetails, setAppointmentDetails] = useState({
     doctorId: "",
     date: "",
     time: "",
   });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/doctor/list"
+        );
+        setDoctors(response.data.doctors);
+      } catch (err) {
+        setError("Failed to load doctors. Please try again later.");
+      }
+    };
+    fetchDoctors();
+  }, []);
 
   const handleBookAppointment = async (e) => {
     e.preventDefault();
@@ -17,8 +36,16 @@ const Appointment = () => {
       return;
     }
 
+    if (!appointmentDetails.doctorId) {
+      alert("Please select a doctor.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/v1/appointments/book",
         appointmentDetails,
         {
@@ -29,43 +56,79 @@ const Appointment = () => {
       );
 
       alert("Appointment booked successfully!");
+      setAppointmentDetails({
+        doctorId: "",
+        date: "",
+        time: "",
+      });
     } catch (error) {
-      alert("Failed to book appointment. Please try again.");
+      setError(
+        error.response?.data?.message ||
+          "Failed to book appointment. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleBookAppointment}>
-      <input
-        type="text"
-        placeholder="Doctor ID"
-        value={appointmentDetails.doctorId}
-        onChange={(e) =>
-          setAppointmentDetails({
-            ...appointmentDetails,
-            doctorId: e.target.value,
-          })
-        }
-        required
-      />
-      <input
-        type="date"
-        value={appointmentDetails.date}
-        onChange={(e) =>
-          setAppointmentDetails({ ...appointmentDetails, date: e.target.value })
-        }
-        required
-      />
-      <input
-        type="time"
-        value={appointmentDetails.time}
-        onChange={(e) =>
-          setAppointmentDetails({ ...appointmentDetails, time: e.target.value })
-        }
-        required
-      />
-      <button type="submit">Book Appointment</button>
-    </form>
+    <div className="appointment-container">
+      <h1>Book an Appointment</h1>
+      <form onSubmit={handleBookAppointment}>
+        <label className="form-label">
+          Select Doctor:
+          <select
+            className="form-select"
+            value={appointmentDetails.doctorId}
+            onChange={(e) =>
+              setAppointmentDetails({
+                ...appointmentDetails,
+                doctorId: e.target.value,
+              })
+            }
+          >
+            <option value="">--Select a Doctor--</option>
+            {doctors.map((doctor) => (
+              <option key={doctor._id} value={doctor._id}>
+                {doctor.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="form-label">
+          Date:
+          <input
+            className="form-input"
+            type="date"
+            value={appointmentDetails.date}
+            onChange={(e) =>
+              setAppointmentDetails({
+                ...appointmentDetails,
+                date: e.target.value,
+              })
+            }
+          />
+        </label>
+        <label className="form-label">
+          Time:
+          <input
+            className="form-input"
+            type="time"
+            value={appointmentDetails.time}
+            onChange={(e) =>
+              setAppointmentDetails({
+                ...appointmentDetails,
+                time: e.target.value,
+              })
+            }
+          />
+        </label>
+        <button className="submit-button" type="submit" disabled={loading}>
+          {loading ? "Booking..." : "Book Appointment"}
+        </button>
+      </form>
+      {error && <p className="error-message">{error}</p>}
+    </div>
   );
 };
 

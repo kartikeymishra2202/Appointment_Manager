@@ -1,0 +1,36 @@
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.signup-form input {
+  margin: 10px;
+  padding: 5px;
+}
+
+.signup-form button {
+  padding: 5px 10px;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.slot input {
+  margin-right: 10px;
+}
+
+.removeButton {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background-color: darkred;
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./DoctorLogin.css"; 
 
 const DoctorLogin = () => {
   const [email, setEmail] = useState("");
@@ -18,19 +19,16 @@ const DoctorLogin = () => {
         }
       );
 
-      // // Save token to localStorage
-      // const { token } = response.data;
-      // localStorage.setItem("doctorToken", token);
-
       alert("Login successful!");
-      navigate("/"); // Redirect to the appropriate route
+      navigate("/"); 
     } catch (error) {
       alert("Invalid login credentials. Please try again.");
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} className="login-form">
+      <label>DOCTOR SIGN IN</label> 
       <input
         type="email"
         placeholder="Email"

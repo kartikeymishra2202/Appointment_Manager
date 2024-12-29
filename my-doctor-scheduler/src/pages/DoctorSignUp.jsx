@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./DoctorSignup.css"; 
 
 const DoctorSignup = () => {
   const [formData, setFormData] = useState({
@@ -16,10 +17,8 @@ const DoctorSignup = () => {
     const { name, value } = e.target;
 
     if (name === "start" || name === "end") {
-      // If time (start or end) is updated, update the time correctly
       newSlots[index].time[name] = value;
     } else {
-      // Update date if it's changed
       newSlots[index][name] = value;
     }
 
@@ -54,7 +53,8 @@ const DoctorSignup = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="signup-form">
+      <label>DOCTOR SIGN UP</label>
       <input
         type="text"
         placeholder="Name"
@@ -102,7 +102,11 @@ const DoctorSignup = () => {
             required
           />
           {formData.availableSlots.length > 1 && (
-            <button type="button" onClick={() => handleRemoveSlot(index)}>
+            <button
+              type="button"
+              onClick={() => handleRemoveSlot(index)}
+              className="removeButton"
+            >
               Remove Slot
             </button>
           )}

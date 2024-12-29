@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./PatientSignup.css";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -32,39 +33,31 @@ const Signup = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Signup</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="signup-container">
+      <h1>Patient Signup</h1>
+      <form onSubmit={handleSubmit} className="signup-form">
         <input
           type="text"
           name="name"
           placeholder="Name"
           value={formData.name}
           onChange={handleChange}
-          style={{ margin: "10px", padding: "5px" }}
         />
-        <br />
         <input
           type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          style={{ margin: "10px", padding: "5px" }}
         />
-        <br />
         <input
           type="password"
           name="password"
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          style={{ margin: "10px", padding: "5px" }}
         />
-        <br />
-        <button type="submit" style={{ padding: "5px 10px" }}>
-          Signup
-        </button>
+        <button type="submit">Signup</button>
       </form>
     </div>
   );

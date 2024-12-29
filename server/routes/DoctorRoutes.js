@@ -98,4 +98,11 @@ doctorRoutes.post("/logout", (req, res) => {
   });
 });
 
+doctorRoutes.get("/list", async (req, res) => {
+  const doctors = await DoctorModel.find();
+  res.status(200).json({
+    doctors: doctors,
+  });
+});
+
 export default doctorRoutes;

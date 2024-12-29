@@ -170,32 +170,8 @@ appointmentRoutes.get("/slots", async (req, res) => {
 
 // Fetch missed appointments
 appointmentRoutes.get("/missed", async (req, res) => {
-  const appointments = await Appointment.find({ status: "missed" });
+  const appointments = await AppointmentModel.find({ status: "no-show" });
   res.json(appointments);
-});
-
-// Reschedule appointment
-appointmentRoutes.post("/:appointmentId/reschedule", async (req, res) => {
-  const { newDate, newTime } = req.body;
-  const appointment = await Appointment.findById(req.params.appointmentId);
-
-  const isSlotAvailable = await Appointment.findOne({
-    doctorId: appointment.doctorId,
-    date: newDate,
-    time: newTime,
-    status: { $in: ["booked", "completed"] },
-  });
-
-  if (isSlotAvailable) {
-    return res.status(400).json({ error: "Slot not available" });
-  }
-
-  appointment.date = newDate;
-  appointment.time = newTime;
-  appointment.status = "booked";
-  await appointment.save();
-
-  res.json({ message: "Appointment rescheduled successfully", appointment });
 });
 
 export default appointmentRoutes;

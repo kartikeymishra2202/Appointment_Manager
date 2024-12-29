@@ -1,19 +1,26 @@
-
-
-
 Patient Appointment Management System (PAMS)
+
 Patient Appointment Management System (PAMS) is a web application designed to help patients and doctors manage appointments efficiently. This project allows patients to sign up, log in, view available appointment slots, and book appointments with doctors. Doctors can manage their availability and view appointments booked by patients.
 
 Table of Contents
+
 Project Overview
+
 Features
+
 Tech Stack
+
 Installation
+
 Usage
-Project Structure
+
+
+
 API Endpoints
-Contributing
-License
+
+
+
+
 Project Overview
 The PAMS system allows users to:
 
@@ -110,11 +117,13 @@ Patients can sign up, log in, view available doctors, check available slots, and
 Doctors can sign up, log in, manage available slots, and view appointments.
 
 API Endpoints
+
 Patient Routes
 POST /api/v1/patients/signup: Patient sign-up
 POST /api/v1/patients/signin: Patient login
 GET /api/v1/appointments/slots: Get available slots for a specific doctor and date
 POST /api/v1/appointments/book: Book an appointment
+
 Doctor Routes
 POST /api/v1/doctor/signup: Doctor sign-up
 POST /api/v1/doctor/signin: Doctor login
